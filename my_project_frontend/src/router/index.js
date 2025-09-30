@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
+import {unauthorized} from "@/net/index.js";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,8 +15,25 @@ const router = createRouter({
                     component: () => import('@/views/welcome/LoginPage.vue')
                 }
             ]
+        }, {
+            path: '/index',
+            name: 'index',
+            component: () => import('@/views/indexFake.vue')
         }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    const isUnauthorized = unauthorized()
+    //用户已登录，但还要去welcome页，直接定向主页
+    if (to.name.startsWith('welcome-') && !isUnauthorized)
+        next('/index')
+    //用户未登录，直接去访问index，只能回welcome页
+    else if (to.fullPath.startsWith('/index') && isUnauthorized)
+        next('/')
+    //正常情况
+    else
+        next()
 })
 
 export default router
