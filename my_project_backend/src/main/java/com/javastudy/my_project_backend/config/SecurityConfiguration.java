@@ -44,7 +44,7 @@ public class SecurityConfiguration {
         return http
                 // 配置 URL 权限
                 .authorizeHttpRequests(conf -> conf
-                        .requestMatchers("/api/auth/**").permitAll()    // 所有 /api/auth 开头的接口（如登录）无需认证
+                        .requestMatchers("/api/auth/**", "/error").permitAll()    // 所有 /api/auth 开头的接口（如登录）无需认证
                         .anyRequest().authenticated()   // 其他所有请求都必须认证
                 )
                 // 表单登录配置

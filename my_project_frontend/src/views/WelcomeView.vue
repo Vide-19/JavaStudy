@@ -13,7 +13,11 @@
       <div>Java@SpringBoot@Vue3</div>
     </div>
     <div class="right-card">
-      <router-view/>
+      <router-view v-slot="{ Component }">
+        <transition name="el-fade-in-linear" mode="out-in">
+          <component :is="Component"/>
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
@@ -22,7 +26,7 @@
 .right-card {
   width: 400px;
   z-index: 1;
-  background-color: white;
+  background-color: var(--el-bg-color);
 }
 .welcome-title {
   position: absolute;
